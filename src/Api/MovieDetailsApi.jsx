@@ -9,11 +9,11 @@ const options = {
 };
 
 export const MovieDetailsApi = ({ movieId, setMovieDetails }) => {
-  const url = `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`;
+  const url = `https://api.themoviedb.org/3/movie/${movieId}`;
 
   useEffect(() => {
     axios.get(url, options)
-      .then(response => setMovieDetails(response.data))
+      .then(Response => setMovieDetails(Response.data))
       .catch(error => console.error('Error fetching movie details:', error));
-  }, [movieId, setMovieDetails, url]);
+  }, [setMovieDetails, url]);
 };

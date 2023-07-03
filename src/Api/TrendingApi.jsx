@@ -9,11 +9,11 @@ const options = {
 };
 
 export const TrendingMovies = ({ setMovies }) => {
-  const url = 'https://api.themoviedb.org/3/trending/all/day?language=en-US';
+  const url = 'https://api.themoviedb.org/3/trending/movie/day?language=en-US';
 
   useEffect(() => {
     axios.get(url, options)
-      .then(response => setMovies(response.data.results))
+      .then(Response => setMovies(Response.data.results))
       .catch(error => console.error('Error fetching trending movies:', error));
   }, [setMovies]);
 };

@@ -1,32 +1,42 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { MovieDetailsApi } from 'Api/MovieDetails';
+import { Link } from 'react-router-dom';
+import { SearchApi } from "Api/SearchApi";
 
 const Movies = () => {
-  const { id } = useParams();
-  const [movieDetails, setMovieDetails] = useState(null);
+  const [movieSearch, setMovieSearch] = useState('');
+  const [movieData, setMovieData] = useState([]);
+
+  const handleInputChange = (event) => {
+    setMovieSearch(event.target.value);
+  }
 
   return (
     <main>
-      <h1>Hola</h1>
-      {console.log(id)}
-      {console.log(movieDetails)}
-      {movieDetails ? (
-        <div>
-          <h2>{movieDetails.title}</h2>
-          <img src={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`} alt={movieDetails.title} />
-          <p>Vote Average: {parseFloat(movieDetails.vote_average.toFixed(1))}</p>
-          <h2>Overview</h2>
-          <p>{movieDetails.overview}</p>
-          <h2>Genres</h2>
-          <p>{movieDetails.genres.map(genre => genre.name).join(', ')}</p>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
-      <MovieDetailsApi movieId={id} setMovieDetails={setMovieDetails} />
+      <div>
+        <input type="text" value={movieSearch} onChange={handleInputChange} />
+      </div>
+
+      <div>
+        {movieData && movieData.results?.length > 0 ? (
+          <ul>
+            {movieData.results.map(({ id, title, name }) => (
+              <li key={id}>
+                <Link to={`/movies/${id}`}>{title || name}</Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>
+            {movieData?.results?.length === 0
+              ? 'No hay resultados para esta búsqueda'
+              : 'Loading...'}
+          </p>
+        )}
+      </div>
+
+      <SearchApi movieSearh={movieSearch} setMovieData={setMovieData}/>
     </main>
   );
-};
+}
 
 export default Movies;
