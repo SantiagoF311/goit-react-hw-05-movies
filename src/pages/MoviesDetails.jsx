@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
+import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
 import { MovieDetailsApi } from 'Api/MovieDetailsApi';
 
 const MoviesDetails = () => {
   const { id } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
+  const location = useLocation();
+  const cameBack = location.state?.from ?? '/';
 
   return (
     <main>
+      <Link  to={cameBack}>
+        Go Back
+      </Link>
       <h1>Hola</h1>
       {console.log(id)}
       {console.log(movieDetails)}
